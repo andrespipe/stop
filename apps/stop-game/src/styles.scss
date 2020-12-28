@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+$main-nav-h: 64px;
+$main-h: calc(100vh - #{$main-nav-h});
+
+main{
+  min-height: $main-h;
+}

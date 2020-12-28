@@ -20,7 +20,9 @@
               "apps/stop-game/src/favicon.ico",
               "apps/stop-game/src/assets"
             ],
-            "styles": ["apps/stop-game/src/styles.scss"],
+            "styles": [
+              "apps/stop-game/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -79,12 +81,17 @@
               "apps/stop-game/tsconfig.spec.json",
               "apps/stop-game/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/stop-game/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/stop-game/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/stop-game"],
+          "outputs": [
+            "coverage/apps/stop-game"
+          ],
           "options": {
             "jestConfig": "apps/stop-game/jest.config.js",
             "passWithNoTests": true
@@ -113,8 +120,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/stop-game-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/stop-game-e2e/**/*"]
+            "tsConfig": [
+              "apps/stop-game-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/stop-game-e2e/**/*"
+            ]
           }
         }
       }
@@ -127,12 +139,16 @@
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -161,12 +177,17 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api"],
+          "outputs": [
+            "coverage/apps/api"
+          ],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
@@ -182,15 +203,21 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/api-interfaces/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
+            "tsConfig": [
+              "libs/api-interfaces/tsconfig.lib.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/api-interfaces/**/*"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "5ce5392a-26cd-4cdf-93a9-8a7eeeefaa1d"
   },
   "schematics": {
     "@nrwl/workspace": {
