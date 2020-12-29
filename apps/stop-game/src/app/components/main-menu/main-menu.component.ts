@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { IUIColor, UIThemeColor, UiThemeService } from '../../services/ui-theme.service';
 
 @Component({
   selector: 'stop-game-main-menu',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor() { }
+  theme: BehaviorSubject<IUIColor>;
+
+  constructor(private uITheme: UiThemeService) {
+    this.theme = uITheme.currentTheme;
+  }
 
   ngOnInit(): void {
   }
