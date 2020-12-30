@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IUIColor, UiThemeService } from 'apps/stop-game/src/app/services/ui-theme.service';
 import { BehaviorSubject } from 'rxjs';
 
 export interface IWelcomeItem{
   text: string;
   icon: string;
+  path: string;
 }
 
 const items = [
-  { text: 'New game', icon: 'fas fa-play-circle'},
-  { text: 'Join game', icon: 'fas fa-hand-point-up '},
-  { text: 'Hall of fame', icon: 'fas fa-star-half-alt'},
+  { text: 'New game', path: 'new-game', icon: 'fas fa-play-circle'},
+  { text: 'Join game', path: 'join-game', icon: 'fas fa-hand-point-up '},
+  { text: 'Hall of fame', path: 'hall-of-fame', icon: 'fas fa-star-half-alt'},
 ];
 @Component({
   selector: 'stop-game-welcome',
@@ -23,11 +25,17 @@ export class WelcomeComponent implements OnInit {
 
   theme: BehaviorSubject<IUIColor> = this.uITheme.currentTheme;
 
-  constructor(private uITheme: UiThemeService) {
+  constructor(
+    private router: Router,
+    private uITheme: UiThemeService) {
   }
 
 
   ngOnInit(): void {
+  }
+
+  openMenu(path: string) {
+    setTimeout(() => this.router.navigate([path]), 200);
   }
 
 }
