@@ -1,5 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { IUIColor, UiThemeService } from 'apps/stop-game/src/app/services/ui-theme.service';
+import { BehaviorSubject } from 'rxjs';
 
+export interface IWelcomeItem{
+  text: string;
+  icon: string;
+}
+
+const items = [
+  { text: 'New game', icon: 'fas fa-play-circle'},
+  { text: 'Join game', icon: 'fas fa-hand-point-up '},
+  { text: 'Hall of fame', icon: 'fas fa-star-half-alt'},
+];
 @Component({
   selector: 'stop-game-welcome',
   templateUrl: './welcome.component.html',
@@ -7,7 +19,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  items = new BehaviorSubject<IWelcomeItem[]>(items);
+
+  theme: BehaviorSubject<IUIColor> = this.uITheme.currentTheme;
+
+  constructor(private uITheme: UiThemeService) {
+  }
+
 
   ngOnInit(): void {
   }
