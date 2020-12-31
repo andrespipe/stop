@@ -35,7 +35,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   openMenu(path: string) {
-    setTimeout(() => this.router.navigate([path]), 200);
+    this.router.navigate([path]);
   }
 
 }

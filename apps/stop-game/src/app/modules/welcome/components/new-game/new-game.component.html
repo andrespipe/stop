@@ -1,1 +1,36 @@
-<p>new-game works!</p>
+<h1>New game</h1>
+<form [formGroup]="formNewGame" (ngSubmit)="onSubmitNewGame()">
+  <div class="card">
+    <div class="card-content">
+      <div>
+        <label>Language</label><br>
+        <label>
+          <input type="radio" formControlName="language" value="EN" />
+          <span>English</span>
+        </label>
+        <label>
+          <input type="radio" formControlName="language" value="ES"/>
+          <span>Español</span>
+        </label>
+      </div>
+      <label>
+        Nickname
+        <input type="text" formControlName="nickName">
+      </label>
+      <label>
+        <input type="checkbox" formControlName="isPrivateGame">
+        <span>Private game</span>
+      </label>
+      <div>
+      </div>
+      <label>
+        Rounds
+        <input type="text" formControlName="rounds">
+      </label>
+      <button [disabled]="!formNewGame.valid" class="btn waves-effect waves-light" type="submit" name="action">
+        Start the game
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </div>
+</form>

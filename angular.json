@@ -20,9 +20,7 @@
               "apps/stop-game/src/favicon.ico",
               "apps/stop-game/src/assets"
             ],
-            "styles": [
-              "apps/stop-game/src/styles.scss"
-            ],
+            "styles": ["apps/stop-game/src/styles.scss"],
             "scripts": [
               "node_modules/@fortawesome/fontawesome-free/js/brands.js",
               "node_modules/@fortawesome/fontawesome-free/js/solid.js",
@@ -85,17 +83,12 @@
               "apps/stop-game/tsconfig.spec.json",
               "apps/stop-game/tsconfig.editor.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/stop-game/**/*"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/stop-game/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/stop-game"
-          ],
+          "outputs": ["coverage/apps/stop-game"],
           "options": {
             "jestConfig": "apps/stop-game/jest.config.js",
             "passWithNoTests": true
@@ -124,13 +117,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/stop-game-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/stop-game-e2e/**/*"
-            ]
+            "tsConfig": ["apps/stop-game-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/stop-game-e2e/**/*"]
           }
         }
       }
@@ -143,16 +131,12 @@
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": [
-              "apps/api/src/assets"
-            ]
+            "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -181,17 +165,12 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/api/**/*"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api"
-          ],
+          "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
@@ -207,13 +186,33 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
+            "tsConfig": ["libs/api-interfaces/tsconfig.lib.json"],
+            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
+          }
+        }
+      }
+    },
+    "data": {
+      "root": "libs/data",
+      "sourceRoot": "libs/data/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
             "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json"
+              "libs/data/tsconfig.lib.json",
+              "libs/data/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/api-interfaces/**/*"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/data/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/data"],
+          "options": {
+            "jestConfig": "libs/data/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
