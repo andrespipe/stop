@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '@stop-game/api-interfaces';
-import { IUIColor, UiThemeService } from './services/ui-theme.service';
+import { UiThemeService } from '@stop-game/fe/services/ui-theme.service';
+import { IUIColor } from '@stop-game/fe/models/ui.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

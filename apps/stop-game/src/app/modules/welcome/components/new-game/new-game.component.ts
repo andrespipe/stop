@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import {
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
+import { StopGameService } from '@stop-game/fe/services/stop-game.service';
 @Component({
   selector: 'stop-game-new-game',
   templateUrl: './new-game.component.html',
@@ -15,7 +18,10 @@ export class NewGameComponent implements OnInit {
     rounds: [5, Validators.required],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private stopGameService: StopGameService,
+    ) { }
 
   ngOnInit(): void {
   }

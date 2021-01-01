@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IUIColor, UiThemeService } from '../../services/ui-theme.service';
+import { IUIColor } from '@stop-game/fe/models/ui.model';
+import { UiThemeService } from '@stop-game/fe/services/ui-theme.service';
 
 @Component({
   selector: 'stop-game-main-footer',
