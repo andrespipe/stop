@@ -1,8 +1,7 @@
-<div style="text-align: center">
-  <h1>Welcome to stop-game!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-  />
+<div class="{{ (theme | async)?.bg }}">
+  <stop-game-main-menu></stop-game-main-menu>
+  <main class="container">
+    <router-outlet></router-outlet>
+  </main>
+  <stop-game-main-footer></stop-game-main-footer>
 </div>
-<div>Message: {{ hello$ | async | json }}</div>

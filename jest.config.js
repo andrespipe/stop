@@ -1,3 +1,7 @@
 module.exports = {
-  projects: ['<rootDir>/apps/stop-game', '<rootDir>/apps/api'],
+  projects: [
+    '<rootDir>/apps/stop-game',
+    '<rootDir>/apps/api',
+    '<rootDir>/libs/data',
+  ],
 };

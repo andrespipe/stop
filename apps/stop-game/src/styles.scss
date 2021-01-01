@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+$main-nav-h: 64px;
+$main-h: calc(100vh - #{$main-nav-h});
+
+main{
+  min-height: $main-h;
+}
+
+/**  Helpers **/
+
+$spacer: 1rem;
+
+.p0{
+  padding: 0;
+}
+
+.p1{
+  padding: $spacer*.25;
+}
+
+.p2{
+  padding: $spacer*.5;
+}
+
+.p3{
+  padding: $spacer;
+}
+
+.p4{
+  padding: $spacer*1.5;
+}
+
+.p5{
+  padding: $spacer*3;
+}
+
+.w100{
+  width: 100%;
+}
+
+.h-auto{
+  height: auto;
+}

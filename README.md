@@ -6,6 +6,15 @@ This project was generated using [Nx](https://nx.dev).
 
 🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
+## Tools
+
+Fish Shell.
+
+TMUX and TMUXINATOR
+
+Visual Studio Code
+
+to run the project open the file "tmuxinator.yml" using "tmuxinator start -p ~/{repo path}/tmuxinator.yml" in your shell.
 ## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)

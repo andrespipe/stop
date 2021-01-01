@@ -1,0 +1,10 @@
+<ng-container *ngIf="theme | async as _theme">
+  <nav class="{{ _theme.fg }} {{ _theme.variant }}3">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">STOP</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a></li>
+      </ul>
+    </div>
+  </nav>
+</ng-container>

@@ -1,0 +1,13 @@
+name: space-stop-game
+root: ~/Documents/repos/stop
+
+windows:
+  - monorepo:
+      layout: main-vertical
+      panes:
+        - open -a "Visual Studio Code";open -a "Google Chrome" https://localhost:4200;clear;
+          nvm use default;
+          npm run nx -- serve stop-game
+        - nvm use default;
+          npx nx serve api
+        - cd docker/mongo; docker-compose up

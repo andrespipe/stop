@@ -1,0 +1,14 @@
+<ng-container *ngIf="{ items: items | async, theme: theme | async } as elements">
+  <div class="row items-container">
+    <ng-container *ngFor="let item of elements.items">
+      <div class="col s12 m4">
+        <div class="card center-align {{ elements.theme.fg }} item hoverable" (click)="openMenu(item.path)">
+          <div class="card-image p3 white-text item-icon-container">
+            <i class="{{ item.icon }} item-icon"></i>
+          </div>
+          <div class="card-content">{{ item.text }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
