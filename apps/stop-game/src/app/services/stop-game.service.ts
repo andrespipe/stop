@@ -1,14 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { INewStopGame } from '@stop-game/data';
+import { INewStopGame, IStopGame } from '@stop-game/data';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StopGameService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  public newGame(gameData: INewStopGame) {
-
+  public createNewGame(newGame: INewStopGame): Observable<IStopGame> {
+    const url = `api/game`;
+    return this.http.post<IStopGame>(url, newGame);
   }
 }
