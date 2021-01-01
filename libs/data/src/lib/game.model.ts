@@ -6,6 +6,5 @@ export interface INewStopGame {
 }
 
 export interface IStopGame extends INewStopGame{
-
   gameId: string;
 }
