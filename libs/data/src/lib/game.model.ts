@@ -1,10 +1,18 @@
 export interface INewStopGame {
   isPrivateGame: boolean;
   language: string;
-  nickName: string;
+  players: IPlayer[];
   rounds: number;
 }
 
 export interface IStopGame extends INewStopGame{
-  gameId: string;
+  gameId: string | {};
+}
+
+export interface IUser {
+  countryId?: number;
+  userId?: number | {};
+}
+export interface IPlayer extends IUser{
+  nickName: string;
 }

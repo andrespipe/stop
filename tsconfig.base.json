@@ -17,7 +17,8 @@
     "paths": {
       "@stop-game/api-interfaces": ["libs/api-interfaces/src/index.ts"],
       "@stop-game/data": ["libs/data/src/index.ts"],
-      "@stop-game/fe/*": ["apps/stop-game/src/app/*"]
+      "@stop-game/fe/*": ["apps/stop-game/src/app/*"],
+      "@stop-game/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

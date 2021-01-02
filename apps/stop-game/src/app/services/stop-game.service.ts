@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { INewStopGame, IStopGame } from '@stop-game/data';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class StopGameService {
 
   constructor(private http: HttpClient) { }
