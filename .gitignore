@@ -3,6 +3,9 @@
 # Mongo volume
 /docker/mongo/mongo-volume
 
+# env
+.env*
+
 # compiled output
 /dist
 /tmp

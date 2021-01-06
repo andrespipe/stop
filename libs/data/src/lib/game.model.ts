@@ -6,7 +6,7 @@ export interface INewStopGame {
 }
 
 export interface IStopGame extends INewStopGame{
-  gameId: string | {};
+  id?: string | {};
 }
 
 export interface IUser {
