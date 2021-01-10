@@ -4,6 +4,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { StopGameService } from '@stop-game/fe/services/stop-game.service';
+import {
+  INewStopGame,
+  IPlayer,
+  IStopGame,
+} from '@stop-game/data';
 @Component({
   selector: 'stop-game-new-game',
   templateUrl: './new-game.component.html',
@@ -27,7 +32,22 @@ export class NewGameComponent implements OnInit {
   }
 
   public onSubmitNewGame(): void {
-    
+    const { formNewGame: { value } } = this;
+    const player: IPlayer = { nickName: value.nickName };
+    const newGame: INewStopGame = {
+      isPrivateGame: value.isPrivateGame,
+      language: value.language,
+      players: [player],
+      rounds: value.rounds,
+    };
+    this.stopGameService
+      .createNewGame(newGame)
+      .subscribe(game => this.handleNewGame(game));
+  }
+
+  private handleNewGame(game: IStopGame) {
+
+    console.log({game});
   }
 
 }

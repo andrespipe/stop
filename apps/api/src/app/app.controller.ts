@@ -1,15 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
-
-import { Message } from '@stop-game/api-interfaces';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { AppService } from './app.service';
+
+import { INewStopGame, IStopGame } from '@stop-game/data';
+import { mongoUUID } from '@stop-game/utils';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get('hello')
-  getData(): Message {
-    return this.appService.getData();
-  }
 }
