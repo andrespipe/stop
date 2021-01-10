@@ -1,1 +1,70 @@
-<p>join-game works!</p>
+<h1>Join Game</h1>
+
+<div class="row">
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">Private game</div>
+        <stop-game-join-game-form (joinedGame)="onJoinedGame($event)"></stop-game-join-game-form>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">Public games</div>
+
+        <ng-container *ngIf="selectedGame | async as gameCode; else publicGamesList">
+          <stop-game-join-game-form
+            [gameCode]="gameCode"
+            (joinedGame)="onJoinedGame($event)"
+            >
+          </stop-game-join-game-form>
+        </ng-container>
+
+        <ng-template #publicGamesList>
+          <table class="striped">
+            <thead>
+              <tr>
+                <th>
+                  <i class="fas fa-users"></i>Players
+                </th>
+                <th>
+                  <i class="fas fa-globe-americas"></i>Language
+                </th>
+                <th>
+                  <i class="fas fa-hourglass-start"></i>Rounds
+                </th>
+                <th>
+                  <i class="fas fa-hourglass-half"></i>Played
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="publicGames | async as games; else loadingGames">
+                <ng-container *ngFor="let game of games; trackBy:trackById">
+                  <tr (click)="selectGame(game.id)">
+                    <td>{{ game.players?.length}}</td>
+                    <td>{{ game.language }}</td>
+                    <td>{{ game.rounds }}</td>
+                    <td>{{ game.rounds }}</td>
+                    <td>
+                      <i class="fas fa-user-plus"></i>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+              <ng-template #loadingGames>
+                <tr>
+                  <td colspan="5">Loading</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -27,7 +27,12 @@
         Rounds
         <input type="text" formControlName="rounds">
       </label>
-      <button [disabled]="!formNewGame.valid" class="btn waves-effect waves-light" type="submit" name="action">
+      <button
+        class="btn waves-effect waves-light"
+        type="submit" 
+        name="action"
+        [disabled]="!formNewGame.valid"
+        >
         Start the game
         <i class="material-icons right">send</i>
       </button>

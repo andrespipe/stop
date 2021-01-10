@@ -1,3 +1,11 @@
 {
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "all",
+  "prettier.singleQuote": true,
+  "semi": true,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "arrowParens": "always",
   "singleQuote": true
 }

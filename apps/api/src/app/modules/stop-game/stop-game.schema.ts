@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 // import * as mongoose from 'mongoose';
 
 export type StopGameDocument = StopGame & Document;
@@ -13,7 +13,7 @@ export class StopGame {
   language: string;
   //@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }] })
   @Prop({ required: true })
-  players: [];
+  players: any[];
   @Prop({ required: true })
   rounds: number;
 }

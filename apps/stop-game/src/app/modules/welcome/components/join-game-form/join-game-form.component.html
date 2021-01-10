@@ -1,0 +1,19 @@
+<form [formGroup]="formJoinGame" (ngSubmit)="onSubmitJoinGame()">
+  <ng-container *ngIf="!gameCode">
+    <label>
+      Game Code
+      <input type="text" formControlName="gameCode">
+    </label>
+  </ng-container>
+  <label>
+    Nickname
+    <input type="text" formControlName="nickName">
+  </label>
+  <button
+    class="btn waves-effect waves-light"
+    type="submit"
+    [disabled]="!formJoinGame.valid"
+    >
+    Join Game
+  </button>
+</form>
