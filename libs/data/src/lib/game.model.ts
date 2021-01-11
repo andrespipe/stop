@@ -15,6 +15,21 @@ export interface IUser {
 }
 export interface IPlayer extends IUser {
   nickName: string;
+  moves?: Map<string, IMove>;
+}
+
+export interface IMove {
+  name: IWord[];
+  lastName: IWord[];
+  cityCountry: IWord[];
+  animal: IWord[];
+  food: IWord[];
+  score: number;
+}
+
+export interface IWord {
+  score: number;
+  word: string;
 }
 
 export function stopGameMapper(game): IStopGame {

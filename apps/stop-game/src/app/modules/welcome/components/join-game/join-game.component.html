@@ -44,13 +44,15 @@
             <tbody>
               <ng-container *ngIf="publicGames | async as games; else loadingGames">
                 <ng-container *ngFor="let game of games; trackBy:trackById">
-                  <tr (click)="selectGame(game.id)">
+                  <tr>
                     <td>{{ game.players?.length}}</td>
                     <td>{{ game.language }}</td>
                     <td>{{ game.rounds }}</td>
                     <td>{{ game.rounds }}</td>
                     <td>
-                      <i class="fas fa-user-plus"></i>
+                      <a class="waves-effect waves-light btn" (click)="selectGame(game.id)">
+                        <i class="fas fa-user-plus"></i>
+                      </a>
                     </td>
                   </tr>
                 </ng-container>

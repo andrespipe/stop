@@ -1,0 +1,13 @@
+<h4>Stop - Game / Playing</h4>
+
+<ng-container *ngIf="game | async as playingGame">
+  <div class="game-field">
+    <ng-container *ngFor="let player of playingGame.players">
+      <div class="card">
+        <div class="card-content">
+          {{ player.nickName }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

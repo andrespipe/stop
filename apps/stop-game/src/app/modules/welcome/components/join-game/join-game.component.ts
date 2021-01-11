@@ -29,7 +29,7 @@ export class JoinGameComponent implements OnInit {
     this.selectedGame.next(gameId);
   }
 
-  public onJoinedGame(game: IStopGame) {
-    console.log({ game });
+  public onJoinedGame(gameInfo: [IStopGame, string]) {
+    this.stopGameService.openGame(gameInfo[0], gameInfo[1]);
   }
 }

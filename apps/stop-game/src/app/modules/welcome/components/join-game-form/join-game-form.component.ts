@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class JoinGameFormComponent implements OnInit {
   @Input() gameCode: string;
-  @Output() joinedGame = new EventEmitter<IStopGame>();
+  @Output() joinedGame = new EventEmitter<[IStopGame, string]>();
 
   _gameCode = new BehaviorSubject<string>(null);
 
@@ -41,6 +41,6 @@ export class JoinGameFormComponent implements OnInit {
     } = this;
     this.stopGameService
       .joinGame(gameCode, { nickName })
-      .subscribe((joinedGame) => this.joinedGame.emit(joinedGame));
+      .subscribe((joinedGame) => this.joinedGame.emit([joinedGame, nickName]));
   }
 }

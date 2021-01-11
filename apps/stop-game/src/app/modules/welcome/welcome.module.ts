@@ -8,14 +8,19 @@ import { HallOfFameComponent } from './components/hall-of-fame/hall-of-fame.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JoinGameFormComponent } from './components/join-game-form/join-game-form.component';
 
-
 @NgModule({
-  declarations: [WelcomeComponent, NewGameComponent, JoinGameComponent, HallOfFameComponent, JoinGameFormComponent],
+  declarations: [
+    WelcomeComponent,
+    NewGameComponent,
+    JoinGameComponent,
+    HallOfFameComponent,
+    JoinGameFormComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     WelcomeRoutingModule,
-  ]
+  ],
 })
-export class WelcomeModule { }
+export class WelcomeModule {}
