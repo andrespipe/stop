@@ -41,6 +41,12 @@
     },
     "utils": {
       "tags": []
+    },
+    "game-socket": {
+      "tags": []
+    },
+    "game-socket-node": {
+      "tags": []
     }
   }
 }

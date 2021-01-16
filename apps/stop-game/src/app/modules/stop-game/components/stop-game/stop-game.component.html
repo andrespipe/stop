@@ -2,6 +2,7 @@
 
 <ng-container *ngIf="game | async as playingGame">
   <div class="game-field">
+    <button class="btn" (click)="sendMessage()">Click here</button>
     <ng-container *ngFor="let player of playingGame.players">
       <div class="card">
         <div class="card-content">

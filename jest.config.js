@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/apps/api',
     '<rootDir>/libs/data',
     '<rootDir>/libs/utils',
+    '<rootDir>/apps/game-socket-node',
   ],
 };

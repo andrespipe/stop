@@ -6,13 +6,12 @@ import { StopGameService } from './stop-game.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: 'StopGame',schema: StopGameSchema}], 'stop_game_db'),
+    MongooseModule.forFeature(
+      [{ name: 'StopGame', schema: StopGameSchema }],
+      'stop_game_db',
+    ),
   ],
-  controllers: [
-    StopGameController,
-  ],
-  providers: [
-    StopGameService,
-  ],
+  controllers: [StopGameController],
+  providers: [StopGameService],
 })
-export class StopGameModule{}
+export class StopGameModule {}

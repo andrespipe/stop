@@ -241,6 +241,90 @@
           }
         }
       }
+    },
+    "game-socket": {
+      "projectType": "application",
+      "root": "apps/game-socket",
+      "sourceRoot": "apps/game-socket/src",
+      "architect": {
+        "build": {
+          "builder": "@nx-go/nx-go:build",
+          "options": {
+            "outputPath": "dist/apps/game-socket",
+            "main": "apps/game-socket/src/main.go"
+          }
+        },
+        "serve": {
+          "builder": "@nx-go/nx-go:serve",
+          "options": {
+            "main": "apps/game-socket/src/main.go"
+          }
+        },
+        "test": {
+          "builder": "@nx-go/nx-go:test",
+          "options": {
+            "main": "apps/game-socket/src/main_test.go"
+          }
+        },
+        "lint": {
+          "builder": "@nx-go/nx-go:lint"
+        }
+      }
+    },
+    "game-socket-node": {
+      "root": "apps/game-socket-node",
+      "sourceRoot": "apps/game-socket-node/src",
+      "projectType": "application",
+      "prefix": "game-socket-node",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/game-socket-node",
+            "main": "apps/game-socket-node/src/main.ts",
+            "tsConfig": "apps/game-socket-node/tsconfig.app.json",
+            "assets": ["apps/game-socket-node/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/game-socket-node/src/environments/environment.ts",
+                  "with": "apps/game-socket-node/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "game-socket-node:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/game-socket-node/tsconfig.app.json",
+              "apps/game-socket-node/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/game-socket-node/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/game-socket-node"],
+          "options": {
+            "jestConfig": "apps/game-socket-node/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
