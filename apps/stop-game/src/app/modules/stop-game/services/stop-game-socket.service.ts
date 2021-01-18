@@ -1,22 +1,49 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import { IMovement } from '@stop-game/data';
+import { Socket, SocketIoConfig } from 'ngx-socket-io';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class StopGameSocketService {
-  message = this.socket.fromEvent<string>('message');
-  messages = this.socket.fromEvent<string[]>('messages');
+  socketConf: SocketIoConfig;
+  socket: Socket;
+  moveReporter = new BehaviorSubject<IMovement>(null);
 
-  constructor(private socket: Socket) {
-    console.log('socket', { socket });
-    this.socket.on('msgToClient', (message) => this.receiveMessage(message));
+  constructor() {}
+
+  public connectGame(gameId: string) {
+    this.socketConf = this.initSocketConfig(gameId);
+    this.initSocket();
   }
 
-  sendMessage(msg: string) {
-    console.log('sendMessage', msg);
-    this.socket.emit('msgToServer', msg);
+  private initSocketConfig(gameId: string): SocketIoConfig {
+    return {
+      url: `http://localhost:3334`,
+      options: {
+        query: { gameId },
+      },
+    };
   }
 
-  receiveMessage(message: string) {
-    console.log('receiveMessage', message);
+  private initSocket() {
+    this.socket = new Socket(this.socketConf);
+    this.socket.on('newGameMove', this.catchMove.bind(this));
+  }
+
+  sendMyMove(move: IMovement) {
+    this.socket.emit('gameMove', move);
+  }
+
+  catchMove(move: IMovement) {
+    this.moveReporter.next(move);
+    console.log({ move });
+    // const moveObj = JSON.parse(move);
+    // console.log('moveObj', { move, moveObj });
+    // const movement: IMovement = {
+    //   move: moveObj.move,
+    //   nickName: moveObj.nickName,
+    //   round: moveObj.round,
+    // };
+    // this.moveReporter.next(movement);
   }
 }

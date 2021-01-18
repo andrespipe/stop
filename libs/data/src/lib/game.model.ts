@@ -24,12 +24,28 @@ export interface IMove {
   cityCountry: IWord[];
   animal: IWord[];
   food: IWord[];
-  score: number;
+  score?: number;
+}
+
+export interface IMovement {
+  nickName: string;
+  round: string;
+  move: IMove;
 }
 
 export interface IWord {
-  score: number;
+  score?: number;
   word: string;
+}
+
+export function getEmptyMove(): IMove {
+  return {
+    animal: [],
+    cityCountry: [],
+    food: [],
+    lastName: [],
+    name: [],
+  };
 }
 
 export function stopGameMapper(game): IStopGame {

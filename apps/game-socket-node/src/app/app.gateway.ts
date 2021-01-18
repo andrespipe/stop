@@ -17,10 +17,17 @@ export class AppGateway
 
   private logger: Logger = new Logger('AppGateway');
 
-  @SubscribeMessage('msgToServer')
-  handleMessage(client: Socket, payload: string): void {
-    this.logger.log(`Client ${client.id} ${payload}`);
-    this.server.emit('msgToClient', payload);
+  handleConnection(client: Socket, ...args: any[]) {
+    const gameId = this.getGameId(client);
+    this.logger.log(`Client connected: ${client.id} - Room ${gameId}`);
+    client.join(gameId);
+  }
+
+  @SubscribeMessage('gameMove')
+  handleGameMove(client: Socket, payload: any): void {
+    const gameId = this.getGameId(client);
+    this.logger.log(`Room ${gameId} gameMove ${JSON.stringify(payload)}`);
+    this.server.to(gameId).emit('newGameMove', payload);
   }
 
   afterInit(server: Server) {
@@ -31,7 +38,7 @@ export class AppGateway
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`);
+  private getGameId(client: Socket): string {
+    return client.handshake.query.gameId;
   }
 }

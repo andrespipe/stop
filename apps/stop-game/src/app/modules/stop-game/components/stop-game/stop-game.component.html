@@ -2,13 +2,74 @@
 
 <ng-container *ngIf="game | async as playingGame">
   <div class="game-field">
-    <button class="btn" (click)="sendMessage()">Click here</button>
-    <ng-container *ngFor="let player of playingGame.players">
-      <div class="card">
-        <div class="card-content">
-          {{ player.nickName }}
-        </div>
+    <form [formGroup]="playingForm">
+      <div class="row">
+        <div class="col s2"><input type="text" value="{{currentRound}}" readonly></div>
+        <div class="col s2"><input type="text" (keydown.enter)="addWord('name')" formControlName="name"></div>
+        <div class="col s2"><input type="text" (keydown.enter)="addWord('lastName')" formControlName="lastName"></div>
+        <div class="col s2"><input type="text" (keydown.enter)="addWord('food')" formControlName="food"></div>
+        <div class="col s2"><input type="text" (keydown.enter)="addWord('cityCountry')" formControlName="cityCountry"></div>
+        <div class="col s2"><input type="text" (keydown.enter)="addWord('animal')" formControlName="animal"></div>
       </div>
+    </form>
+    <ng-container *ngTemplateOutlet="headers"></ng-container>
+    
+    <ng-container *ngFor="let player of playingGame.players">
+      <ng-container *ngIf="player.nickName !== nickName">
+        <ng-container *ngTemplateOutlet="playerCard; context: { player: player }"></ng-container>
+      </ng-container>
     </ng-container>
   </div>
 </ng-container>
+
+<ng-template #headers>
+  <div class="row">
+    <div class="col s2">Letter</div>
+    <div class="col s2">Name</div>
+    <div class="col s2">Last name</div>
+    <div class="col s2">Food</div>
+    <div class="col s2">City / Country</div>
+    <div class="col s2">Animal</div>
+  </div>
+  <hr>
+</ng-template>
+
+<ng-template #column let-columnItems="columnItems">
+  <ng-container *ngFor="let item of columnItems">
+    <div>{{ item.word }}</div>
+  </ng-container>
+</ng-template>
+
+<ng-template #playerCard let-player="player">
+  <div class="card">
+    <div class="card-content {{ player.nickName === nickName ? 'accent-3 deep-orange grey-text text-lighten-4' : '' }}">
+      <div class="center-align">
+        {{ player.nickName }}
+      </div>
+      <hr>
+      <ng-container *ngIf="player.moves">
+        <ng-container *ngTemplateOutlet="headers"></ng-container>
+        <ng-container *ngFor="let move of player.moves | keyvalue">
+          <div class="row">
+            <div class="col s2">{{ move.key }}</div>
+            <div class="col s2">
+              <ng-container *ngTemplateOutlet="column; context: { columnItems: move.value['name']}"></ng-container>
+            </div>
+            <div class="col s2">
+              <ng-container *ngTemplateOutlet="column; context: { columnItems: move.value['lastName'] }"></ng-container>
+            </div>
+            <div class="col s2">
+              <ng-container *ngTemplateOutlet="column; context: { columnItems: move.value['food'] }"></ng-container>
+            </div>
+            <div class="col s2">
+              <ng-container *ngTemplateOutlet="column; context: { columnItems: move.value['cityCountry'] }"></ng-container>
+            </div>
+            <div class="col s2">
+              <ng-container *ngTemplateOutlet="column; context: { columnItems: move.value['animal'] }"></ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
