@@ -38,5 +38,8 @@ export class StopGameService {
     return this.http.get<IStopGame>(url);
   }
 
-  public connectGame(gameId: string): any {}
+  public findPlayer(gameId: string, nickname: string): Observable<IPlayer> {
+    const url = `${this.baseURL}/${gameId}/player/${nickname}`;
+    return this.http.get<IPlayer>(url);
+  }
 }

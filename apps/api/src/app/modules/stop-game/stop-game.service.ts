@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { StopGameDocument } from './stop-game.schema';
@@ -85,5 +85,13 @@ export class StopGameService {
     result.players.push(player);
     const savedGame = await result.save();
     return stopGameMapper(savedGame);
+  }
+
+  async findPlayer(gameId: string, nickname: string): Promise<IPlayer> {
+    const result = await this.findGameById(gameId);
+    const player = result.players.find(
+      (player) => player.nickName === nickname,
+    );
+    return new Promise((resolve) => resolve(player));
   }
 }

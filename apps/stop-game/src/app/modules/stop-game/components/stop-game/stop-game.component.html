@@ -1,26 +1,52 @@
 <h4>Stop - Game / Playing</h4>
 
-<ng-container *ngIf="game | async as playingGame">
-  <div class="game-field">
-    <form [formGroup]="playingForm">
-      <div class="row">
-        <div class="col s2"><input type="text" value="{{currentRound}}" readonly></div>
-        <div class="col s2"><input type="text" (keydown.enter)="addWord('name')" formControlName="name"></div>
-        <div class="col s2"><input type="text" (keydown.enter)="addWord('lastName')" formControlName="lastName"></div>
-        <div class="col s2"><input type="text" (keydown.enter)="addWord('food')" formControlName="food"></div>
-        <div class="col s2"><input type="text" (keydown.enter)="addWord('cityCountry')" formControlName="cityCountry"></div>
-        <div class="col s2"><input type="text" (keydown.enter)="addWord('animal')" formControlName="animal"></div>
-      </div>
-    </form>
-    <ng-container *ngTemplateOutlet="headers"></ng-container>
-    
-    <ng-container *ngFor="let player of playingGame.players">
-      <ng-container *ngIf="player.nickName !== nickName">
-        <ng-container *ngTemplateOutlet="playerCard; context: { player: player }"></ng-container>
+<ng-container *ngIf="nickName | async as myNickName; else askNickName">
+  <ng-container *ngIf="game | async as playingGame">
+    <div class="game-field">
+      <form [formGroup]="formPlaying">
+        <div class="row">
+          <div class="col s2"><input type="text" class="center-align" value="{{currentRound}}" readonly disabled></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('name')" (keydown.enter)="addWord('name')" formControlName="name"></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('lastName')" (keydown.enter)="addWord('lastName')" formControlName="lastName"></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('food')" (keydown.enter)="addWord('food')" formControlName="food"></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('cityCountry')" (keydown.enter)="addWord('cityCountry')" formControlName="cityCountry"></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('animal')" (keydown.enter)="addWord('animal')" formControlName="animal"></div>
+        </div>
+      </form>
+      <ng-container *ngTemplateOutlet="headers"></ng-container>
+  
+      <ng-container *ngTemplateOutlet="playerCard; context: { player: getCurrentPlayer(myNickName, game) }"></ng-container>
+  
+      <ng-container *ngFor="let player of playingGame.players">
+        <ng-container *ngIf="player.nickName !== myNickName">
+          <ng-container *ngTemplateOutlet="playerCard; context: { player: player }"></ng-container>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 </ng-container>
+<ng-template #askNickName>
+  <div class="row">
+    <div class="col m3"></div>
+    <div class="col m6">
+      <div class="card">
+        <div class="card-content">
+          <form [formGroup]="formNickName" (ngSubmit)="onSubmitNickname()">
+            <div>
+              <label>
+                Nickname:
+                <input type="text" formControlName="nickName">
+              </label>
+            </div>
+            <br>
+            <button type="submit" class="btn">Join</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 
 <ng-template #headers>
   <div class="row">
@@ -42,13 +68,13 @@
 
 <ng-template #playerCard let-player="player">
   <div class="card">
-    <div class="card-content {{ player.nickName === nickName ? 'accent-3 deep-orange grey-text text-lighten-4' : '' }}">
+    <div class="card-content {{ player.nickName === nickName.value ? 'accent-3 deep-orange grey-text text-lighten-4' : '' }}">
       <div class="center-align">
         {{ player.nickName }}
       </div>
       <hr>
       <ng-container *ngIf="player.moves">
-        <ng-container *ngTemplateOutlet="headers"></ng-container>
+        <!-- <ng-container *ngTemplateOutlet="headers"></ng-container> -->
         <ng-container *ngFor="let move of player.moves | keyvalue">
           <div class="row">
             <div class="col s2">{{ move.key }}</div>

@@ -6,7 +6,6 @@ import {
   IMovement,
   IPlayer,
   IStopGame,
-  IWord,
 } from '@stop-game/data';
 import { StopGameService } from '@stop-game/fe/services/stop-game.service';
 import { BehaviorSubject } from 'rxjs';
@@ -20,15 +19,17 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class StopGameComponent implements OnInit {
   currentRound = 'A';
-  game = new BehaviorSubject<IStopGame>(null);
-  nickName: string = 'AFMV';
-  playingForm = this.fb.group({
+  formNickName = this.fb.group({ nickName: [, Validators.required] });
+  formPlaying = this.fb.group({
     animal: [, Validators.required],
     cityCountry: [, Validators.required],
     food: [, Validators.required],
     lastName: [, Validators.required],
     name: [, Validators.required],
   });
+  game = new BehaviorSubject<IStopGame>(null);
+  gameId = new BehaviorSubject<string>(null);
+  nickName = new BehaviorSubject<string>(null);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,6 +44,13 @@ export class StopGameComponent implements OnInit {
 
   private onActivatedRoute(params): void {
     const gameId = params.id;
+    this.gameId.next(gameId);
+    if (this.nickName.value) {
+      this.loadGame(gameId);
+    }
+  }
+
+  private loadGame(gameId: string): void {
     if (gameId) {
       this.stopGameService
         .loadGame(gameId)
@@ -61,17 +69,43 @@ export class StopGameComponent implements OnInit {
     this.stopGameSocketService.moveReporter.subscribe(
       this.handleMovement.bind(this),
     );
+    this.stopGameSocketService.playerReporter.subscribe(
+      this.handleNewPlayer.bind(this),
+    );
   }
+
+  // Nickname input
+  private findPlayer(nickname: string): void {
+    const gameId = this.gameId.value;
+    this.stopGameService
+      .findPlayer(gameId, nickname)
+      .subscribe(this.onPlayerLoaded.bind(this));
+  }
+
+  private onPlayerLoaded(player: IPlayer) {
+    const { gameId } = this;
+    const { nickName } = player;
+    this.nickName.next(nickName);
+    this.loadGame(gameId.value);
+  }
+
+  public onSubmitNickname(): void {
+    const { formNickName } = this;
+    const nickName = formNickName.get('nickName').value;
+    console.log('onSubmitNickname', nickName);
+    this.findPlayer(nickName);
+  }
+  // Nickname input end
 
   public sendMovement(currentPlayer: IPlayer) {
     const { nickName, currentRound: round } = this;
     const { moves } = currentPlayer;
     const move = moves.get(round);
-    const myMove: IMovement = { nickName, round, move };
+    const myMove: IMovement = { nickName: nickName.value, round, move };
     this.stopGameSocketService.sendMyMove(myMove);
   }
 
-  private getCurrentPlayer(
+  public getCurrentPlayer(
     nickName: string,
     game: BehaviorSubject<IStopGame>,
   ): IPlayer {
@@ -83,10 +117,11 @@ export class StopGameComponent implements OnInit {
     return currentPlayer;
   }
 
-  public handleMovement(movement: IMovement) {
+  public handleMovement(movement: IMovement): void {
     if (movement) {
-      const { game, nickName } = this;
-      const currentPlayer = this.getCurrentPlayer(nickName, game);
+      const { game } = this;
+      const currentPlayer = this.getCurrentPlayer(movement.nickName, game);
+      console.log(currentPlayer);
       if (!currentPlayer.moves) {
         currentPlayer.moves = new Map<string, IMove>();
       }
@@ -95,20 +130,35 @@ export class StopGameComponent implements OnInit {
     }
   }
 
+  private handleNewPlayer(player: IPlayer): void {
+    const currentGame = this.game.value;
+    const { players } = currentGame;
+    const foundedPlayer = players.find((p) => p.nickName === player.nickName);
+    if (!foundedPlayer) {
+      players.push(player);
+    }
+  }
+
   public addWord(element: string): void {
     const { game, nickName, currentRound } = this;
-    const currentPlayer = this.getCurrentPlayer(nickName, game);
+    const currentPlayer = this.getCurrentPlayer(nickName.value, game);
     if (!currentPlayer.moves) {
       currentPlayer.moves = new Map<string, IMove>();
       const emptyMove: IMove = getEmptyMove();
       currentPlayer.moves.set(currentRound, emptyMove);
     }
     const currentMoves = currentPlayer.moves.get(currentRound);
-    const inputElement = this.playingForm.get(element);
+    const inputElement = this.formPlaying.get(element);
     const wordToAdd = inputElement.value;
     inputElement.reset();
-    const categoryMoves = [...currentMoves[element], { word: wordToAdd }];
-    currentMoves[element] = categoryMoves;
-    this.sendMovement(currentPlayer);
+    if (this.isValidWord(wordToAdd)) {
+      const categoryMoves = [...currentMoves[element], { word: wordToAdd }];
+      currentMoves[element] = categoryMoves;
+      this.sendMovement(currentPlayer);
+    }
+  }
+
+  private isValidWord(word: string): boolean {
+    return !!word && !!word.trim();
   }
 }

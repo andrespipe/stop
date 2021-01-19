@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IMovement } from '@stop-game/data';
+import { IMovement, IPlayer } from '@stop-game/data';
 import { Socket, SocketIoConfig } from 'ngx-socket-io';
 import { BehaviorSubject } from 'rxjs';
 
@@ -8,13 +8,9 @@ export class StopGameSocketService {
   socketConf: SocketIoConfig;
   socket: Socket;
   moveReporter = new BehaviorSubject<IMovement>(null);
+  playerReporter = new BehaviorSubject<IPlayer>(null);
 
   constructor() {}
-
-  public connectGame(gameId: string) {
-    this.socketConf = this.initSocketConfig(gameId);
-    this.initSocket();
-  }
 
   private initSocketConfig(gameId: string): SocketIoConfig {
     return {
@@ -28,22 +24,23 @@ export class StopGameSocketService {
   private initSocket() {
     this.socket = new Socket(this.socketConf);
     this.socket.on('newGameMove', this.catchMove.bind(this));
+    this.socket.on('newPlayer', this.catchNewPlayer.bind(this));
   }
 
-  sendMyMove(move: IMovement) {
-    this.socket.emit('gameMove', move);
-  }
-
-  catchMove(move: IMovement) {
+  private catchMove(move: IMovement) {
     this.moveReporter.next(move);
-    console.log({ move });
-    // const moveObj = JSON.parse(move);
-    // console.log('moveObj', { move, moveObj });
-    // const movement: IMovement = {
-    //   move: moveObj.move,
-    //   nickName: moveObj.nickName,
-    //   round: moveObj.round,
-    // };
-    // this.moveReporter.next(movement);
+  }
+
+  private catchNewPlayer(player: IPlayer) {
+    this.playerReporter.next(player);
+  }
+
+  public connectGame(gameId: string) {
+    this.socketConf = this.initSocketConfig(gameId);
+    this.initSocket();
+  }
+
+  public sendMyMove(move: IMovement) {
+    this.socket.emit('gameMove', move);
   }
 }
