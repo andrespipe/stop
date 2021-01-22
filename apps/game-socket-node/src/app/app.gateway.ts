@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { HttpService, Logger } from '@nestjs/common';
 
 import {
   OnGatewayConnection,
@@ -9,11 +9,14 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { IMovement } from '@stop-game/data';
 
 @WebSocketGateway()
 export class AppGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
+
+  constructor(private http: HttpService) {}
 
   private logger: Logger = new Logger('AppGateway');
 
@@ -24,9 +27,18 @@ export class AppGateway
   }
 
   @SubscribeMessage('gameMove')
-  handleGameMove(client: Socket, payload: any): void {
+  handleGameMove(client: Socket, payload: IMovement): void {
     const gameId = this.getGameId(client);
     this.logger.log(`Room ${gameId} gameMove ${JSON.stringify(payload)}`);
+    const { nickName, round } = payload;
+    this.http
+      .put(
+        `http://loclahost:3333/${gameId}/player/${nickName}/movement/${round}`,
+        payload,
+      )
+      .subscribe((ans) => {
+        console.log('updatedMovement', ans);
+      });
     this.server.to(gameId).emit('newGameMove', payload);
   }
 

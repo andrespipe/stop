@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { StopGameDocument } from './stop-game.schema';
-import { IPlayer, IStopGame, stopGameMapper } from '@stop-game/data';
+import { IMovement, IPlayer, IStopGame, stopGameMapper } from '@stop-game/data';
 import * as mongoose from 'mongoose';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class StopGameService {
   constructor(
     @InjectModel('StopGame')
     private readonly stopGameModel: Model<StopGameDocument>,
+    private logger: Logger,
   ) {}
 
   async create(createStopGameDTO: IStopGame): Promise<IStopGame> {
@@ -37,7 +38,7 @@ export class StopGameService {
   }
 
   private async findGameById(gameId: string): Promise<StopGameDocument> {
-    console.log('findGameById', gameId);
+    this.logger.log(`findGameById ${gameId}`);
     const isValidId = mongoose.Types.ObjectId.isValid(gameId);
 
     if (!isValidId) {
@@ -93,5 +94,9 @@ export class StopGameService {
       (player) => player.nickName === nickname,
     );
     return new Promise((resolve) => resolve(player));
+  }
+
+  async addMovement(movement: IMovement): Promise<void> {
+    console.log('movement', movement);
   }
 }

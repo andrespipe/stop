@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 
-import { INewStopGame, IPlayer, IStopGame } from '@stop-game/data';
+import { IMovement, INewStopGame, IPlayer, IStopGame } from '@stop-game/data';
 // import { mongoUUID } from '@stop-game/utils';
 import { StopGameService } from './stop-game.service';
 
@@ -59,6 +59,17 @@ export class StopGameController {
     @Param('nickname') nickname: string,
   ): Promise<IPlayer> {
     const result = await this.stopGameService.findPlayer(gameId, nickname);
+    return result;
+  }
+
+  @Put(':gameId/player/:nikName/movement/:round')
+  async addMovement(
+    @Param('gameId') gameId,
+    @Param('nickName') nickName,
+    @Param('round') round,
+    @Body() movement: IMovement,
+  ): Promise<void> {
+    const result = await this.stopGameService.addMovement(movement);
     return result;
   }
 }

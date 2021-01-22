@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StopGameSchema } from './stop-game.schema';
 import { StopGameController } from './stop-game.controller';
@@ -12,6 +12,6 @@ import { StopGameService } from './stop-game.service';
     ),
   ],
   controllers: [StopGameController],
-  providers: [StopGameService],
+  providers: [StopGameService, Logger],
 })
 export class StopGameModule {}

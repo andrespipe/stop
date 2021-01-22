@@ -10,7 +10,17 @@ import {
 import { StopGameService } from '@stop-game/fe/services/stop-game.service';
 import { BehaviorSubject } from 'rxjs';
 import { StopGameSocketService } from '@stop-game/fe/modules/stop-game/services/stop-game-socket.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  startByValidator,
+  isNotWordInGame,
+} from '@stop-game/fe/modules/stop-game/util/word-validators';
 
 @Component({
   selector: 'stop-game-stop-game',
@@ -20,16 +30,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class StopGameComponent implements OnInit {
   currentRound = 'A';
   formNickName = this.fb.group({ nickName: [, Validators.required] });
-  formPlaying = this.fb.group({
-    animal: [, Validators.required],
-    cityCountry: [, Validators.required],
-    food: [, Validators.required],
-    lastName: [, Validators.required],
-    name: [, Validators.required],
-  });
+
   game = new BehaviorSubject<IStopGame>(null);
   gameId = new BehaviorSubject<string>(null);
   nickName = new BehaviorSubject<string>(null);
+
+  formPlaying = new FormGroup({
+    animal: new FormControl('', [startByValidator(this.currentRound)]),
+    cityCountry: new FormControl('', [startByValidator(this.currentRound)]),
+    food: new FormControl('', [startByValidator(this.currentRound)]),
+    lastName: new FormControl('', [startByValidator(this.currentRound)]),
+    name: new FormControl('', [startByValidator(this.currentRound)]),
+  });
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -131,11 +143,13 @@ export class StopGameComponent implements OnInit {
   }
 
   private handleNewPlayer(player: IPlayer): void {
-    const currentGame = this.game.value;
-    const { players } = currentGame;
-    const foundedPlayer = players.find((p) => p.nickName === player.nickName);
-    if (!foundedPlayer) {
-      players.push(player);
+    if (player) {
+      const currentGame = this.game.value;
+      const { players } = currentGame;
+      const foundedPlayer = players.find((p) => p.nickName === player.nickName);
+      if (!foundedPlayer) {
+        players.push(player);
+      }
     }
   }
 
@@ -147,14 +161,19 @@ export class StopGameComponent implements OnInit {
       const emptyMove: IMove = getEmptyMove();
       currentPlayer.moves.set(currentRound, emptyMove);
     }
-    const currentMoves = currentPlayer.moves.get(currentRound);
-    const inputElement = this.formPlaying.get(element);
+    const currentMoves: IMove = currentPlayer.moves.get(currentRound);
+    const inputElement: AbstractControl = this.formPlaying.get(element);
     const wordToAdd = inputElement.value;
-    inputElement.reset();
-    if (this.isValidWord(wordToAdd)) {
-      const categoryMoves = [...currentMoves[element], { word: wordToAdd }];
-      currentMoves[element] = categoryMoves;
-      this.sendMovement(currentPlayer);
+    if (
+      inputElement.valid &&
+      isNotWordInGame(game, wordToAdd, element, currentRound)
+    ) {
+      inputElement.reset();
+      if (this.isValidWord(wordToAdd)) {
+        const categoryMoves = [...currentMoves[element], { word: wordToAdd }];
+        currentMoves[element] = categoryMoves;
+        this.sendMovement(currentPlayer);
+      }
     }
   }
 

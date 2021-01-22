@@ -6,7 +6,7 @@
       <form [formGroup]="formPlaying">
         <div class="row">
           <div class="col s2"><input type="text" class="center-align" value="{{currentRound}}" readonly disabled></div>
-          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('name')" (keydown.enter)="addWord('name')" formControlName="name"></div>
+          <div class="col s2"><input type="text" class="center-align" (blur)="addWord('name')" (keydown.enter)="addWord('name')" formControlName="name" [spellcheck]="true"></div>
           <div class="col s2"><input type="text" class="center-align" (blur)="addWord('lastName')" (keydown.enter)="addWord('lastName')" formControlName="lastName"></div>
           <div class="col s2"><input type="text" class="center-align" (blur)="addWord('food')" (keydown.enter)="addWord('food')" formControlName="food"></div>
           <div class="col s2"><input type="text" class="center-align" (blur)="addWord('cityCountry')" (keydown.enter)="addWord('cityCountry')" formControlName="cityCountry"></div>
